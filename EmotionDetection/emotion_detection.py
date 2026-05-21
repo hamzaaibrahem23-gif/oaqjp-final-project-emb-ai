@@ -14,6 +14,8 @@ def emotion_detector(text_to_analyze):
     if response.status_code == 200:
         formatted_response = json.loads(response.text)
         emotions = formatted_response["emotionPredictions"][0]["emotion"]
+        dominant_emotion = max(emotions, key=emotions.get)
+        result = {**emotions, 'dominant_emotion': dominant_emotion}
 
     elif response.status_code == 500:
         label = None
@@ -23,4 +25,4 @@ def emotion_detector(text_to_analyze):
         label = None
         score = None
 
-    return emotions
+    return result
